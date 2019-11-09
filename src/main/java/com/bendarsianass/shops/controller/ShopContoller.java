@@ -5,6 +5,7 @@ import com.bendarsianass.shops.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -17,7 +18,8 @@ public class ShopContoller {
     private ShopService shopService;
 
     @GetMapping("/all")
-    public List<Shop> all() {
+    public List<Shop> all(@RequestParam double lat, @RequestParam double lon) {
+        System.out.println(lat+ " " + lon);
         return shopService.getAllShops();
     }
 }
