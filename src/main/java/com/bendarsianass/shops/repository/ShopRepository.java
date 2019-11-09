@@ -1,10 +1,12 @@
 package com.bendarsianass.shops.repository;
 
 import com.bendarsianass.shops.model.Shop;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
 
 import java.util.List;
 
@@ -15,5 +17,5 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
                     "ORDER BY ACOS(SIN(p.lat*:sf)*SIN(:lat*:sf) + COS(p.lat*:sf)*COS(:lat*:sf)*COS((p.lon-:lon)*:sf))",
             nativeQuery = true
     )
-    List<Shop> getAll(@Param("lat") double lat, @Param("lon") double lon, @Param("sf") double sf);
+    List<Shop> getAll(Pageable pageable, @Param("lat") double lat, @Param("lon") double lon, @Param("sf") double sf);
 }

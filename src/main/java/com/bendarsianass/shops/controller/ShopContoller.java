@@ -18,8 +18,8 @@ public class ShopContoller {
     private ShopService shopService;
 
     @GetMapping("/all")
-    public List<Shop> all(@RequestParam double lat, @RequestParam double lon) {
+    public List<Shop> all(@RequestParam double lat, @RequestParam double lon, @RequestParam int page) {
         System.out.println(lat+ " " + lon);
-        return shopService.getAllShops(lat, lon);
+        return shopService.getAllShops(lat, lon, page);
     }
 }
