@@ -6,6 +6,8 @@ import com.bendarsianass.shops.repository.ShopRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ShopService {
 
@@ -16,5 +18,9 @@ public class ShopService {
         shop.setLocation(point);
         point.setShop(shop);
         return shopRepository.save(shop);
+    }
+
+    public List<Shop> getAllShops() {
+        return shopRepository.findAll();
     }
 }
