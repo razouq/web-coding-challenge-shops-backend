@@ -11,6 +11,8 @@ import java.util.List;
 @Service
 public class ShopService {
 
+    public final double SCALING_FACTOR = 3.14159 / 180;
+
     @Autowired
     private ShopRepository shopRepository;
 
@@ -20,7 +22,7 @@ public class ShopService {
         return shopRepository.save(shop);
     }
 
-    public List<Shop> getAllShops() {
-        return shopRepository.findAll();
+    public List<Shop> getAllShops(double lat, double lon) {
+        return shopRepository.getAll(lat, lon, SCALING_FACTOR);
     }
 }

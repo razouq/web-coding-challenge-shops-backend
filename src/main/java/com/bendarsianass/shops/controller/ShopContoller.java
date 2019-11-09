@@ -20,6 +20,6 @@ public class ShopContoller {
     @GetMapping("/all")
     public List<Shop> all(@RequestParam double lat, @RequestParam double lon) {
         System.out.println(lat+ " " + lon);
-        return shopService.getAllShops();
+        return shopService.getAllShops(lat, lon);
     }
 }
