@@ -90,4 +90,5 @@ public class Runner implements CommandLineRunner {
         reader.endArray();
         return doubles;
     }
+
 }
