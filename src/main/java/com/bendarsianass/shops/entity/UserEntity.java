@@ -1,5 +1,7 @@
 package com.bendarsianass.shops.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,12 +14,13 @@ public class UserEntity {
     @Column(unique = true)
     private String username;
     private String password;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "course_like",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "shop_id")
     )
+    @JsonIgnore
     private List<Shop> likedShops = new ArrayList<>();
 
     public UserEntity() {
