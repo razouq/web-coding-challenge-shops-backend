@@ -1,16 +1,24 @@
 package com.bendarsianass.shops.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(unique = true)
     private String username;
     private String password;
+    @ManyToMany
+    @JoinTable(
+            name = "course_like",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "shop_id")
+    )
+    private List<Shop> likedShops = new ArrayList<>();
 
     public UserEntity() {
     }
@@ -37,5 +45,13 @@ public class UserEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Shop> getLikedShops() {
+        return likedShops;
+    }
+
+    public void setLikedShops(List<Shop> likedShops) {
+        this.likedShops = likedShops;
     }
 }

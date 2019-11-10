@@ -1,6 +1,11 @@
 package com.bendarsianass.shops.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Shop {
@@ -14,6 +19,9 @@ public class Shop {
     private String city;
     @OneToOne(mappedBy = "shop", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Point location;
+    @ManyToMany(mappedBy = "likedShops")
+    @JsonIgnore
+    private List<UserEntity> likes = new ArrayList<>();
 
     public Shop() {
     }
@@ -64,5 +72,13 @@ public class Shop {
 
     public void setLocation(Point location) {
         this.location = location;
+    }
+
+    public List<UserEntity> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<UserEntity> likes) {
+        this.likes = likes;
     }
 }
