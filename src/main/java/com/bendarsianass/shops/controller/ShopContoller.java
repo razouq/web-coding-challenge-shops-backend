@@ -17,7 +17,6 @@ public class ShopContoller {
 
     @PostMapping("/all")
     public List<Shop> all(@RequestBody UserLocation userLocation, @RequestParam int page) {
-        System.out.println(userLocation.getLat()+ " " + userLocation.getLon());
         return shopService.getAllShops(userLocation, page);
     }
 }
