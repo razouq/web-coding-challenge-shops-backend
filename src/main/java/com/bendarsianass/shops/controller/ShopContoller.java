@@ -19,4 +19,9 @@ public class ShopContoller {
     public List<Shop> all(@RequestBody UserLocation userLocation, @RequestParam int page) {
         return shopService.getAllShops(userLocation, page);
     }
+
+    @GetMapping("/like/{userId}/{shopId}")
+    public void like(@PathVariable Long userId, @PathVariable Long shopId) {
+        shopService.like(userId, shopId);
+    }
 }
