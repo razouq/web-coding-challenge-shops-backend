@@ -1,6 +1,6 @@
 package com.bendarsianass.shops.controller;
 
-import com.bendarsianass.shops.model.Shop;
+import com.bendarsianass.shops.entity.Shop;
 import com.bendarsianass.shops.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

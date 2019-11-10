@@ -1,6 +1,6 @@
 package com.bendarsianass.shops.repository;
 
-import com.bendarsianass.shops.model.Shop;
+import com.bendarsianass.shops.entity.Shop;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

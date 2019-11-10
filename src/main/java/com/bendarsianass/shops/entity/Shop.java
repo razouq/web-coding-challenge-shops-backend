@@ -1,4 +1,4 @@
-package com.bendarsianass.shops.model;
+package com.bendarsianass.shops.entity;
 
 import javax.persistence.*;
 
