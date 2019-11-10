@@ -39,4 +39,9 @@ public class ShopService {
         user.getLikedShops().add(shop);
         userRepository.save(user);
     }
+
+    public List<Shop> getPreferred(Long userId, int page) {
+        UserEntity userEntity = userRepository.findById(userId).get();
+        return shopRepository.findAllByLikesIs(PageRequest.of(page, 2) ,userEntity);
+    }
 }

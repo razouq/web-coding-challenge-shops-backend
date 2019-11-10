@@ -1,6 +1,7 @@
 package com.bendarsianass.shops.repository;
 
 import com.bendarsianass.shops.entity.Shop;
+import com.bendarsianass.shops.entity.UserEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +19,6 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
             nativeQuery = true
     )
     List<Shop> getAll(Pageable pageable, @Param("lat") double lat, @Param("lon") double lon, @Param("sf") double sf);
+
+    List<Shop> findAllByLikesIs(Pageable pageable ,UserEntity userEntity);
 }
