@@ -1,0 +1,21 @@
+package com.bendarsianass.shops.service;
+
+import com.bendarsianass.shops.entity.UserEntity;
+import com.bendarsianass.shops.model.UserRegistrationRequest;
+import com.bendarsianass.shops.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class AccountService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    public UserEntity save(UserRegistrationRequest userRegistrationRequest) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUsername(userRegistrationRequest.getUsername());
+        userEntity.setPassword(userRegistrationRequest.getPassword());
+        return userRepository.save(userEntity);
+    }
+}
