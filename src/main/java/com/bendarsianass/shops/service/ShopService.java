@@ -42,6 +42,10 @@ public class ShopService {
 
     public List<Shop> getPreferred(Long userId, int page) {
         UserEntity userEntity = userRepository.findById(userId).get();
-        return shopRepository.findAllByLikesIs(PageRequest.of(page, 2) ,userEntity);
+        return shopRepository.findAllByLikesIs(PageRequest.of(page, 12) ,userEntity);
+    }
+
+    public List<Shop> getNearby(Long userId, int page) {
+        return shopRepository.findNotLiked(PageRequest.of(page, 12), userId);
     }
 }
