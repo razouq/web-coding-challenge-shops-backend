@@ -48,4 +48,11 @@ public class ShopService {
     public List<Shop> getNearby(Long userId, int page) {
         return shopRepository.findNotLiked(PageRequest.of(page, 12), userId);
     }
+
+    public void removeLikedShop(Long userId, Long shopId) {
+        UserEntity userEntity = userRepository.findById(userId).get();
+        Shop shop = shopRepository.findById(shopId).get();
+        userEntity.getLikedShops().remove(shop);
+        userRepository.save(userEntity);
+    }
 }

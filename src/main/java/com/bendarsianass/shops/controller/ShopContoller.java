@@ -35,4 +35,9 @@ public class ShopContoller {
     public List<Shop> getNearby(@PathVariable Long userId, @RequestParam int page) {
         return shopService.getNearby(userId, page);
     }
+
+    @GetMapping("removeLikedShop/{userId}/{shopId}")
+    public void removeLikedShop(@PathVariable Long userId, @PathVariable Long shopId) {
+        shopService.removeLikedShop(userId, shopId);
+    }
 }
