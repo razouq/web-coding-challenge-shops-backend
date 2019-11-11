@@ -21,4 +21,23 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
     List<Shop> getAll(Pageable pageable, @Param("lat") double lat, @Param("lon") double lon, @Param("sf") double sf);
 
     List<Shop> findAllByLikesIs(Pageable pageable ,UserEntity userEntity);
+
+    @Query(
+            value = "select shop.* from shop " +
+                    "    left outer join " +
+                    "        shop_like on shop.id=shop_like.shop_id " +
+                    "    left outer join " +
+                    "        user_entity on shop_like.user_id=user_entity.id " +
+                    "    where (user_entity.id<>:user_id or user_entity.id is null) " +
+                    "            and shop.id not in ( " +
+                    "                select shop.id from shop " +
+                    "                    left outer join " +
+                    "                        shop_like on shop.id=shop_like.shop_id " +
+                    "                    left outer join " +
+                    "                        user_entity on shop_like.user_id=user_entity.id " +
+                    "                    where user_entity.id = :user_id " +
+                    "            )",
+            nativeQuery = true
+    )
+    List<Shop> findNotLiked(@Param("user_id") Long user_id);
 }
