@@ -39,5 +39,5 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
                     "            )",
             nativeQuery = true
     )
-    List<Shop> findNotLiked(@Param("user_id") Long user_id);
+    List<Shop> findNotLiked(Pageable pageable, @Param("user_id") Long user_id);
 }
