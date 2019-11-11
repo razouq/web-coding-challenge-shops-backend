@@ -16,7 +16,7 @@ public class UserEntity {
     private String password;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "course_like",
+            name = "shop_like",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "shop_id")
     )
