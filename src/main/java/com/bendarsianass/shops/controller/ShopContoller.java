@@ -30,4 +30,9 @@ public class ShopContoller {
     public List<Shop> getPreferred(@PathVariable Long userId, @RequestParam int page) {
         return shopService.getPreferred(userId, page);
     }
+
+    @GetMapping("getNearby/{userId}")
+    public List<Shop> getNearby(@PathVariable Long userId, @RequestParam int page) {
+        return shopService.getNearby(userId, page);
+    }
 }
