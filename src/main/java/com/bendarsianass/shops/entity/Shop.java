@@ -23,6 +23,9 @@ public class Shop {
     @JsonIgnore
     private List<UserEntity> likes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "shop")
+    private List<ShopDislike> dislikes = new ArrayList<>();
+
     public Shop() {
     }
 
@@ -80,5 +83,13 @@ public class Shop {
 
     public void setLikes(List<UserEntity> likes) {
         this.likes = likes;
+    }
+
+    public List<ShopDislike> getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(List<ShopDislike> dislikes) {
+        this.dislikes = dislikes;
     }
 }
