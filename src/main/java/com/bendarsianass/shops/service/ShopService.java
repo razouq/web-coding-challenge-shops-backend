@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -81,7 +82,7 @@ public class ShopService {
     }
 
     public List<Shop> getDisliked(Long userId) {
-        List<ShopDislike> shopDislikes = userRepository.findById(userId).get().getShopDislikes();
+        List<ShopDislike> shopDislikes = shopDislikeRepository.findByUserIdAndCreatedAtAfter(userId, new Date(System.currentTimeMillis()-10*1000));
         List<Shop> dislikedShops = new ArrayList<>();
         for (ShopDislike shopDislike:shopDislikes) {
             dislikedShops.add(shopDislike.getShop());
