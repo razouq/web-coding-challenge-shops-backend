@@ -1,6 +1,8 @@
 package com.bendarsianass.shops.controller;
 
 import com.bendarsianass.shops.entity.Shop;
+import com.bendarsianass.shops.entity.ShopDislike;
+import com.bendarsianass.shops.entity.UserEntity;
 import com.bendarsianass.shops.model.UserLocation;
 import com.bendarsianass.shops.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +41,15 @@ public class ShopContoller {
     @GetMapping("removeLikedShop/{userId}/{shopId}")
     public void removeLikedShop(@PathVariable Long userId, @PathVariable Long shopId) {
         shopService.removeLikedShop(userId, shopId);
+    }
+
+    @GetMapping("dislike/{userId}/{shopId}")
+    public void dislike(@PathVariable Long userId, @PathVariable Long shopId) {
+        shopService.dislike(userId, shopId);
+    }
+
+    @GetMapping("getDisliked/{userId}")
+    public List<Shop> getDisliked(@PathVariable Long userId) {
+        return shopService.getDisliked(userId);
     }
 }
