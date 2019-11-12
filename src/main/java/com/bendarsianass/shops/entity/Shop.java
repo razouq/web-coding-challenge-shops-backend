@@ -24,6 +24,7 @@ public class Shop {
     private List<UserEntity> likes = new ArrayList<>();
 
     @OneToMany(mappedBy = "shop")
+    @JsonIgnore
     private List<ShopDislike> dislikes = new ArrayList<>();
 
     public Shop() {
