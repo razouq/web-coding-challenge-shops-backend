@@ -33,10 +33,10 @@ public class ShopContoller {
         return shopService.getPreferred(userId, page);
     }
 
-    @GetMapping("getNearby/{userId}")
-    public List<Shop> getNearby(@PathVariable Long userId, @RequestParam int page) {
-        return shopService.getNearby(userId, page);
-    }
+//    @GetMapping("getNearby/{userId}")
+//    public List<Shop> getNearby(@PathVariable Long userId, @RequestParam int page) {
+//        return shopService.getNearby(userId, page);
+//    }
 
     @GetMapping("removeLikedShop/{userId}/{shopId}")
     public void removeLikedShop(@PathVariable Long userId, @PathVariable Long shopId) {
@@ -51,5 +51,10 @@ public class ShopContoller {
     @GetMapping("getDisliked/{userId}")
     public List<Shop> getDisliked(@PathVariable Long userId) {
         return shopService.getDisliked(userId);
+    }
+
+    @PostMapping("getNearby/{userId}")
+    public List<Shop> getNearby(@PathVariable Long userId, @RequestBody UserLocation userLocation) {
+        return shopService.getAllNearbyNotDislikedBeforeAndSorted(userId, userLocation);
     }
 }
