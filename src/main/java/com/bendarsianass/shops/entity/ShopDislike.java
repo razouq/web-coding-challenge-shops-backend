@@ -19,6 +19,8 @@ public class ShopDislike implements Serializable{
     @JoinColumn
     private Shop shop;
 
+    private Date createdAt;
+
     public Long getId() {
         return id;
     }
@@ -41,5 +43,10 @@ public class ShopDislike implements Serializable{
 
     public void setShop(Shop shop) {
         this.shop = shop;
+    }
+
+    @PrePersist
+    protected void onCreate(){
+        this.createdAt = new Date();
     }
 }
