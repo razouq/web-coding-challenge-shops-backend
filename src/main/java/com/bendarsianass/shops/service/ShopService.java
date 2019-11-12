@@ -90,11 +90,12 @@ public class ShopService {
         return dislikedShops;
     }
 
-    public List<Shop> getAllNearbyNotDislikedBeforeAndSorted(Long userId, UserLocation userLocation) {
+    public List<Shop> getAllNearbyNotDislikedBeforeAndSorted(Long userId, UserLocation userLocation, int page) {
         return shopRepository.findAllNearbyNotLikedAndNotDislikedBeforeAndSorted(
                 userId,
                 userLocation.getLat(),
                 userLocation.getLon(),
-                SCALING_FACTOR);
+                SCALING_FACTOR,
+                PageRequest.of(page, 12));
     }
 }

@@ -66,5 +66,6 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
     List<Shop> findAllNearbyNotLikedAndNotDislikedBeforeAndSorted(@Param("user_id") Long user_id,
                                                                   @Param("lat") double lat,
                                                                   @Param("lon") double lon,
-                                                                  @Param("sf") double sf);
+                                                                  @Param("sf") double sf,
+                                                                  Pageable pageable);
 }

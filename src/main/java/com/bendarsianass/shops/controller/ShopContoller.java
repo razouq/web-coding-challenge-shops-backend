@@ -54,7 +54,7 @@ public class ShopContoller {
     }
 
     @PostMapping("getNearby/{userId}")
-    public List<Shop> getNearby(@PathVariable Long userId, @RequestBody UserLocation userLocation) {
-        return shopService.getAllNearbyNotDislikedBeforeAndSorted(userId, userLocation);
+    public List<Shop> getNearby(@PathVariable Long userId, @RequestBody UserLocation userLocation, @RequestParam int page) {
+        return shopService.getAllNearbyNotDislikedBeforeAndSorted(userId, userLocation, page);
     }
 }
