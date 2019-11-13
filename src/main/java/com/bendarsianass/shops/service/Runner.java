@@ -2,6 +2,8 @@ package com.bendarsianass.shops.service;
 
 import com.bendarsianass.shops.entity.Point;
 import com.bendarsianass.shops.entity.Shop;
+import com.bendarsianass.shops.entity.UserEntity;
+import com.bendarsianass.shops.repository.UserRepository;
 import com.google.gson.stream.JsonReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -17,8 +19,15 @@ public class Runner implements CommandLineRunner {
     @Autowired
     private ShopService shopService;
 
+
+    @Autowired UserService userService;
+
     @Override
     public void run(String... args) throws Exception {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUsername("razouq");
+        userEntity.setPassword("123456");
+        userService.save(userEntity);
         addAllShopsToDatabase();
     }
 
