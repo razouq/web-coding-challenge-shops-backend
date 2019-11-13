@@ -1,14 +1,11 @@
 package com.bendarsianass.shops.controller;
 
 import com.bendarsianass.shops.entity.Shop;
-import com.bendarsianass.shops.entity.ShopDislike;
-import com.bendarsianass.shops.entity.UserEntity;
 import com.bendarsianass.shops.model.UserLocation;
 import com.bendarsianass.shops.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -32,11 +29,6 @@ public class ShopContoller {
     public List<Shop> getPreferred(@PathVariable Long userId, @RequestParam int page) {
         return shopService.getPreferred(userId, page);
     }
-
-//    @GetMapping("getNearby/{userId}")
-//    public List<Shop> getNearby(@PathVariable Long userId, @RequestParam int page) {
-//        return shopService.getNearby(userId, page);
-//    }
 
     @GetMapping("removeLikedShop/{userId}/{shopId}")
     public void removeLikedShop(@PathVariable Long userId, @PathVariable Long shopId) {
