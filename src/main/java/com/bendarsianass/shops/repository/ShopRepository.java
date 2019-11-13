@@ -13,34 +13,8 @@ import java.util.List;
 
 @Repository
 public interface ShopRepository extends JpaRepository<Shop, Long> {
-    @Query(
-            value = "SELECT * FROM shop s LEFT OUTER JOIN point p ON s.id = p.shop_id " +
-                    "ORDER BY ACOS(SIN(p.lat*:sf)*SIN(:lat*:sf) + COS(p.lat*:sf)*COS(:lat*:sf)*COS((p.lon-:lon)*:sf))",
-            nativeQuery = true
-    )
-    List<Shop> getAll(Pageable pageable, @Param("lat") double lat, @Param("lon") double lon, @Param("sf") double sf);
 
     List<Shop> findAllByLikesIs(Pageable pageable ,UserEntity userEntity);
-
-    @Query(
-            value = "select shop.* from shop " +
-                    "    left outer join " +
-                    "        shop_like on shop.id=shop_like.shop_id " +
-                    "    left outer join " +
-                    "        user_entity on shop_like.user_id=user_entity.id " +
-                    "    where (user_entity.id<>:user_id or user_entity.id is null) " +
-                    "            and shop.id not in ( " +
-                    "                select shop.id from shop " +
-                    "                    left outer join " +
-                    "                        shop_like on shop.id=shop_like.shop_id " +
-                    "                    left outer join " +
-                    "                        user_entity on shop_like.user_id=user_entity.id " +
-                    "                    where user_entity.id = :user_id " +
-                    "            )",
-            nativeQuery = true
-    )
-    List<Shop> findNotLiked(Pageable pageable, @Param("user_id") Long user_id);
-
 
     @Query(
             value = "select shop.*  " +
@@ -68,4 +42,33 @@ public interface ShopRepository extends JpaRepository<Shop, Long> {
                                                                   @Param("lon") double lon,
                                                                   @Param("sf") double sf,
                                                                   Pageable pageable);
+
+    /*
+    Test Functions
+     */
+    @Query(
+            value = "SELECT * FROM shop s LEFT OUTER JOIN point p ON s.id = p.shop_id " +
+                    "ORDER BY ACOS(SIN(p.lat*:sf)*SIN(:lat*:sf) + COS(p.lat*:sf)*COS(:lat*:sf)*COS((p.lon-:lon)*:sf))",
+            nativeQuery = true
+    )
+    List<Shop> getAll(Pageable pageable, @Param("lat") double lat, @Param("lon") double lon, @Param("sf") double sf);
+
+    @Query(
+            value = "select shop.* from shop " +
+                    "    left outer join " +
+                    "        shop_like on shop.id=shop_like.shop_id " +
+                    "    left outer join " +
+                    "        user_entity on shop_like.user_id=user_entity.id " +
+                    "    where (user_entity.id<>:user_id or user_entity.id is null) " +
+                    "            and shop.id not in ( " +
+                    "                select shop.id from shop " +
+                    "                    left outer join " +
+                    "                        shop_like on shop.id=shop_like.shop_id " +
+                    "                    left outer join " +
+                    "                        user_entity on shop_like.user_id=user_entity.id " +
+                    "                    where user_entity.id = :user_id " +
+                    "            )",
+            nativeQuery = true
+    )
+    List<Shop> findNotLiked(Pageable pageable, @Param("user_id") Long user_id);
 }

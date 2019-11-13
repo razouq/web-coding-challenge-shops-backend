@@ -15,14 +15,9 @@ public class ShopContoller {
     @Autowired
     private ShopService shopService;
 
-    @PostMapping("/all")
-    public List<Shop> all(@RequestBody UserLocation userLocation, @RequestParam int page) {
-        return shopService.getAllShops(userLocation, page);
-    }
-
-    @GetMapping("/like/{userId}/{shopId}")
-    public void like(@PathVariable Long userId, @PathVariable Long shopId) {
-        shopService.like(userId, shopId);
+    @PostMapping("getNearby/{userId}")
+    public List<Shop> getNearby(@PathVariable Long userId, @RequestBody UserLocation userLocation, @RequestParam int page) {
+        return shopService.getAllNearbyNotDislikedBeforeAndSorted(userId, userLocation, page);
     }
 
     @GetMapping("/getPreferred/{userId}")
@@ -30,9 +25,9 @@ public class ShopContoller {
         return shopService.getPreferred(userId, page);
     }
 
-    @GetMapping("removeLikedShop/{userId}/{shopId}")
-    public void removeLikedShop(@PathVariable Long userId, @PathVariable Long shopId) {
-        shopService.removeLikedShop(userId, shopId);
+    @GetMapping("/like/{userId}/{shopId}")
+    public void like(@PathVariable Long userId, @PathVariable Long shopId) {
+        shopService.like(userId, shopId);
     }
 
     @GetMapping("dislike/{userId}/{shopId}")
@@ -40,13 +35,22 @@ public class ShopContoller {
         shopService.dislike(userId, shopId);
     }
 
+    @GetMapping("removeLikedShop/{userId}/{shopId}")
+    public void removeLikedShop(@PathVariable Long userId, @PathVariable Long shopId) {
+        shopService.removeLikedShop(userId, shopId);
+    }
+
+
+    /*
+    Test Functions
+     */
+    @PostMapping("/all")
+    public List<Shop> all(@RequestBody UserLocation userLocation, @RequestParam int page) {
+        return shopService.getAllShops(userLocation, page);
+    }
+
     @GetMapping("getDisliked/{userId}")
     public List<Shop> getDisliked(@PathVariable Long userId) {
         return shopService.getDisliked(userId);
-    }
-
-    @PostMapping("getNearby/{userId}")
-    public List<Shop> getNearby(@PathVariable Long userId, @RequestBody UserLocation userLocation, @RequestParam int page) {
-        return shopService.getAllNearbyNotDislikedBeforeAndSorted(userId, userLocation, page);
     }
 }
