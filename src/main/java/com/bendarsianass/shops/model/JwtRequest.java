@@ -3,14 +3,14 @@ package com.bendarsianass.shops.model;
 public class JwtRequest {
 
     private String username;
-    private String Password;
+    private String password;
 
     public JwtRequest() {
     }
 
     public JwtRequest(String username, String password) {
         this.username = username;
-        Password = password;
+        this.password = password;
     }
 
     public String getUsername() {
@@ -22,10 +22,10 @@ public class JwtRequest {
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
     public void setPassword(String password) {
-        Password = password;
+        this.password = password;
     }
 }
