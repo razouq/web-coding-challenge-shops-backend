@@ -12,7 +12,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final String[] PUBLIC_ENDPOINTS = {
             "/api/authentication/login",
-            "/h2-console/**"
+            "/h2-console/**",
+            "api/account/register"
     };
 
     @Bean
