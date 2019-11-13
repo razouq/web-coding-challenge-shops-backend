@@ -35,9 +35,9 @@ public class UserService implements UserDetailsService {
         return userEntity;
     }
 
-    public void save(UserEntity userEntity) {
+    public UserEntity save(UserEntity userEntity) {
         userEntity.setPassword(passwordEncoder().encode(userEntity.getPassword()));
-        userRepository.save(userEntity);
+        return userRepository.save(userEntity);
     }
 
     public List<UserEntity> findAll() {

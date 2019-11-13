@@ -12,12 +12,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class AccountService {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     public UserEntity save(UserRegistrationRequest userRegistrationRequest) {
         UserEntity userEntity = new UserEntity();
         userEntity.setUsername(userRegistrationRequest.getUsername());
         userEntity.setPassword(userRegistrationRequest.getPassword());
-        return userRepository.save(userEntity);
+        return userService.save(userEntity);
     }
 }
