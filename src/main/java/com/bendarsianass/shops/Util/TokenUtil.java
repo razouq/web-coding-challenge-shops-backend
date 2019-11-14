@@ -13,7 +13,7 @@ import java.util.Map;
 @Component
 public class TokenUtil {
 
-    private final String TOKEN_USERNAME = "username";
+    private final String TOKEN_USERNAME = "sub";
     private final Long TOKEN_VALIDITY = 60*60*24*30L; // 30 day
     private final String TOKEN_SECRET = "united_reMote";
 
