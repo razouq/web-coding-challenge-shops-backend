@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -16,6 +17,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/h2-console/**",
 
     };
+
+    @Bean
+    AuthFilter authFilter() {
+        return new AuthFilter();
+    }
 
     @Bean
     @Override
@@ -31,6 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers(PUBLIC_ENDPOINTS).permitAll()
                     .anyRequest().authenticated().and()
                 .headers().frameOptions().disable().and()
-                .httpBasic();
+//                .httpBasic();
+                .addFilterBefore(authFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }
