@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,6 +31,9 @@ public class ShopService {
     @Autowired
     private ShopDislikeRepository shopDislikeRepository;
 
+    @Autowired
+    private UserService userService;
+
     public Shop saveShopAndPoint(Shop shop, Point point) {
         shop.setLocation(point);
         point.setShop(shop);
@@ -40,30 +44,42 @@ public class ShopService {
         return shopRepository.getAll(PageRequest.of(page,12), userLocation.getLat(), userLocation.getLon(), SCALING_FACTOR);
     }
 
-    public void like(Long userId, Long shopId) {
+    public void like(Long shopId, HttpServletRequest request) {
+        String token = request.getHeader("Authorization").substring("Bearer ".length());
+        Long userId = userService.findUserEntityIdFromToken(token);
         UserEntity user = userRepository.findById(userId).get();
         Shop shop = shopRepository.findById(shopId).get();
         user.getLikedShops().add(shop);
         userRepository.save(user);
     }
 
-    public List<Shop> getPreferred(Long userId, int page) {
+    public List<Shop> getPreferred(int page, HttpServletRequest request) {
+        String token = request.getHeader("Authorization").substring("Bearer ".length());
+        Long userId = userService.findUserEntityIdFromToken(token);
         UserEntity userEntity = userRepository.findById(userId).get();
         return shopRepository.findAllByLikesIs(PageRequest.of(page, 12) ,userEntity);
     }
 
-    public List<Shop> getNearby(Long userId, int page) {
+    public List<Shop> getNearby(int page, HttpServletRequest request) {
+        String token = request.getHeader("Authorization").substring("Bearer ".length());
+        Long userId = userService.findUserEntityIdFromToken(token);
         return shopRepository.findNotLiked(PageRequest.of(page, 12), userId);
     }
 
-    public void removeLikedShop(Long userId, Long shopId) {
+    public void removeLikedShop(Long shopId, HttpServletRequest request) {
+        String token = request.getHeader("Authorization").substring("Bearer ".length());
+        Long userId = userService.findUserEntityIdFromToken(token);
         UserEntity userEntity = userRepository.findById(userId).get();
         Shop shop = shopRepository.findById(shopId).get();
         userEntity.getLikedShops().remove(shop);
         userRepository.save(userEntity);
     }
 
-    public void dislike(Long userId, Long shopId) {
+    public void dislike(Long shopId, HttpServletRequest request) {
+
+        String token = request.getHeader("Authorization").substring("Bearer ".length());
+        Long userId = userService.findUserEntityIdFromToken(token);
+
         ShopDislike shopDislike = new ShopDislike();
 
         UserEntity userEntity = userRepository.findById(userId).get();
@@ -90,9 +106,12 @@ public class ShopService {
         return dislikedShops;
     }
 
-    public List<Shop> getAllNearbyNotDislikedBeforeAndSorted(Long userId, UserLocation userLocation, int page) {
+    public List<Shop> getAllNearbyNotDislikedBeforeAndSorted(UserLocation userLocation, int page, HttpServletRequest request) {
+        String token = request.getHeader("Authorization").substring("Bearer ".length());
+        Long id = userService.findUserEntityIdFromToken(token);
+        System.out.println("id : " + id);
         return shopRepository.findAllNearbyNotLikedAndNotDislikedBeforeAndSorted(
-                userId,
+                id,
                 userLocation.getLat(),
                 userLocation.getLon(),
                 SCALING_FACTOR,

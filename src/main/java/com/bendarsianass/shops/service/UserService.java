@@ -1,5 +1,6 @@
 package com.bendarsianass.shops.service;
 
+import com.bendarsianass.shops.Util.TokenUtil;
 import com.bendarsianass.shops.entity.UserEntity;
 import com.bendarsianass.shops.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private TokenUtil tokenUtil;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -44,4 +48,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
+    public Long findUserEntityIdFromToken(String token) {
+        return userRepository.findByUsername(tokenUtil.getUsernameFromToken(token)).getId();
+    }
 }

@@ -6,6 +6,7 @@ import com.bendarsianass.shops.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -16,29 +17,29 @@ public class ShopContoller {
     @Autowired
     private ShopService shopService;
 
-    @PostMapping("getNearby/{userId}")
-    public List<Shop> getNearby(@PathVariable Long userId, @RequestBody UserLocation userLocation, @RequestParam int page) {
-        return shopService.getAllNearbyNotDislikedBeforeAndSorted(userId, userLocation, page);
+    @PostMapping("/getNearby")
+    public List<Shop> getNearby(@RequestBody UserLocation userLocation, @RequestParam int page, HttpServletRequest request) {
+        return shopService.getAllNearbyNotDislikedBeforeAndSorted(userLocation, page, request);
     }
 
-    @GetMapping("/getPreferred/{userId}")
-    public List<Shop> getPreferred(@PathVariable Long userId, @RequestParam int page) {
-        return shopService.getPreferred(userId, page);
+    @GetMapping("/getPreferred")
+    public List<Shop> getPreferred(@RequestParam int page, HttpServletRequest request) {
+        return shopService.getPreferred(page, request);
     }
 
-    @GetMapping("/like/{userId}/{shopId}")
-    public void like(@PathVariable Long userId, @PathVariable Long shopId) {
-        shopService.like(userId, shopId);
+    @GetMapping("/like/{shopId}")
+    public void like(@PathVariable Long shopId, HttpServletRequest request) {
+        shopService.like(shopId, request);
     }
 
-    @GetMapping("dislike/{userId}/{shopId}")
-    public void dislike(@PathVariable Long userId, @PathVariable Long shopId) {
-        shopService.dislike(userId, shopId);
+    @GetMapping("/dislike/{shopId}")
+    public void dislike(@PathVariable Long shopId, HttpServletRequest request) {
+        shopService.dislike(shopId, request);
     }
 
-    @GetMapping("removeLikedShop/{userId}/{shopId}")
-    public void removeLikedShop(@PathVariable Long userId, @PathVariable Long shopId) {
-        shopService.removeLikedShop(userId, shopId);
+    @GetMapping("removeLikedShop/{shopId}")
+    public void removeLikedShop(@PathVariable Long shopId, HttpServletRequest request) {
+        shopService.removeLikedShop(shopId, request);
     }
 
 
