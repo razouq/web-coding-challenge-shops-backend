@@ -13,9 +13,11 @@ import java.util.List;
 public class UserEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
     @Column(unique = true)
     private String username;
+    @JsonIgnore
     private String password;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -27,6 +29,7 @@ public class UserEntity implements UserDetails {
     private List<Shop> likedShops = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<ShopDislike> shopDislikes = new ArrayList<>();
 
     public UserEntity() {
@@ -73,26 +76,31 @@ public class UserEntity implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
         return true;
     }
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
     }
