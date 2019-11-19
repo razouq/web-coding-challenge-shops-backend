@@ -97,9 +97,13 @@ public class ShopService {
 
         // validation
 
+        Map<String, String> errors = new HashMap<>();
         if(this.getDisliked(userId).contains(shop)) {
-            Map<String, String> errors = new HashMap<>();
             errors.put("dislike", "already disliked shop");
+            throw new AccountServiceException(errors);
+        }
+        if(userEntity.getLikedShops().contains(shop)) {
+            errors.put("dislike", "user can't dislike a preferred shop");
             throw new AccountServiceException(errors);
         }
 
