@@ -4,6 +4,7 @@ import com.bendarsianass.shops.entity.Point;
 import com.bendarsianass.shops.entity.Shop;
 import com.bendarsianass.shops.entity.ShopDislike;
 import com.bendarsianass.shops.entity.UserEntity;
+import com.bendarsianass.shops.exception.AccountServiceException;
 import com.bendarsianass.shops.model.UserLocation;
 import com.bendarsianass.shops.repository.ShopDislikeRepository;
 import com.bendarsianass.shops.repository.ShopRepository;
@@ -13,9 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ShopService {
@@ -47,10 +46,16 @@ public class ShopService {
     public void like(Long shopId, HttpServletRequest request) {
         String token = request.getHeader("Authorization").substring("Bearer ".length());
         Long userId = userService.findUserEntityIdFromToken(token);
-        UserEntity user = userRepository.findById(userId).get();
+        // validation
         Shop shop = shopRepository.findById(shopId).get();
-        user.getLikedShops().add(shop);
-        userRepository.save(user);
+        UserEntity userEntity = userRepository.findById(userId).get();
+        if(userEntity.getLikedShops().contains(shop)) {
+            Map<String, String> errors = new HashMap<>();
+            errors.put("like", "already liked shop");
+            throw new AccountServiceException(errors);
+        }
+        userEntity.getLikedShops().add(shop);
+        userRepository.save(userEntity);
     }
 
     public List<Shop> getPreferred(int page, HttpServletRequest request) {
