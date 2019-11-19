@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface ShopDislikeRepository extends JpaRepository<ShopDislike, Long> {
-    List<ShopDislike> findByUserIdAndCreatedAtAfter(Long userId, Date date);
+    List<ShopDislike> findAllByUserIdAndCreatedAtAfter(Long userId, Date date);
 }

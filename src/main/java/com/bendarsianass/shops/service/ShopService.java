@@ -46,9 +46,9 @@ public class ShopService {
     public void like(Long shopId, HttpServletRequest request) {
         String token = request.getHeader("Authorization").substring("Bearer ".length());
         Long userId = userService.findUserEntityIdFromToken(token);
-        // validation
         Shop shop = shopRepository.findById(shopId).get();
         UserEntity userEntity = userRepository.findById(userId).get();
+        // validation
         if(userEntity.getLikedShops().contains(shop)) {
             Map<String, String> errors = new HashMap<>();
             errors.put("like", "already liked shop");
@@ -90,6 +90,14 @@ public class ShopService {
         UserEntity userEntity = userRepository.findById(userId).get();
         Shop shop = shopRepository.findById(shopId).get();
 
+        // validation
+
+        if(this.getDisliked(userId).contains(shop)) {
+            Map<String, String> errors = new HashMap<>();
+            errors.put("dislike", "already disliked shop");
+            throw new AccountServiceException(errors);
+        }
+
         shopDislike.setUser(userEntity);
         shopDislike.setShop(shop);
 
@@ -103,7 +111,7 @@ public class ShopService {
     }
 
     public List<Shop> getDisliked(Long userId) {
-        List<ShopDislike> shopDislikes = shopDislikeRepository.findByUserIdAndCreatedAtAfter(userId, new Date(System.currentTimeMillis()-10*1000));
+        List<ShopDislike> shopDislikes = shopDislikeRepository.findAllByUserIdAndCreatedAtAfter(userId, new Date(System.currentTimeMillis()-2*60*60*1000));
         List<Shop> dislikedShops = new ArrayList<>();
         for (ShopDislike shopDislike:shopDislikes) {
             dislikedShops.add(shopDislike.getShop());
