@@ -1,5 +1,10 @@
 package com.bendarsianass.shops.model;
 
+import com.bendarsianass.shops.entity.UserEntity;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class UserRegistrationRequest {
 
     private String username;
@@ -31,5 +36,23 @@ public class UserRegistrationRequest {
 
     public void setPasswordConfirm(String passwordConfirm) {
         this.passwordConfirm = passwordConfirm;
+    }
+
+    public Map<String, String> validate() {
+        Map<String, String> errors = new HashMap<>();
+        if(username.trim().isEmpty()) {
+            errors.put("username", "username should not be empty");
+        }
+
+
+        if(!password.trim().equals(passwordConfirm.trim())) {
+            errors.put("password", "password and password confirmation fields should match");
+        }
+
+        if(password.trim().length() < 6) {
+            errors.put("password", "password should contain at least 6 characters");
+        }
+
+        return errors;
     }
 }
