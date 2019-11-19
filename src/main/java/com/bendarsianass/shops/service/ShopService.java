@@ -49,9 +49,13 @@ public class ShopService {
         Shop shop = shopRepository.findById(shopId).get();
         UserEntity userEntity = userRepository.findById(userId).get();
         // validation
+        Map<String, String> errors = new HashMap<>();
         if(userEntity.getLikedShops().contains(shop)) {
-            Map<String, String> errors = new HashMap<>();
             errors.put("like", "already liked shop");
+            throw new AccountServiceException(errors);
+        }
+        if(this.getDisliked(userId).contains(shop)) {
+            errors.put("like", "user can't like a disliked shop");
             throw new AccountServiceException(errors);
         }
         userEntity.getLikedShops().add(shop);
@@ -76,6 +80,7 @@ public class ShopService {
         Long userId = userService.findUserEntityIdFromToken(token);
         UserEntity userEntity = userRepository.findById(userId).get();
         Shop shop = shopRepository.findById(shopId).get();
+
         userEntity.getLikedShops().remove(shop);
         userRepository.save(userEntity);
     }
