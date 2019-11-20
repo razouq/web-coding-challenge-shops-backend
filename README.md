@@ -1,5 +1,5 @@
 # Web Coding Challenge Backend
-this project represents my backend participation in the recruitment challenge of United Remote.
+this project represents my participation in the recruitment challenge of United Remote.
 
 ## User Stories
 - As a User, I can sign up using my username & password
