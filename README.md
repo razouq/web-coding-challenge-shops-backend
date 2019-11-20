@@ -1,14 +1,13 @@
-# Web Coding Challenge Backend
-this project represents my participation in the recruitment challenge of United Remote.
+# Web Coding Challenge BackEnd
+This project represents my participation in the recruitment challenge of United Remote.<br>
+It is an API bootstrapped with [Spring Initialize](https://start.spring.io/)
+with the following dependencies:
+- Spring Web
+- Spring Data JPA
+- Spring Boot DevTools
+- H2 Database
+- Spring Security
 
-## User Stories
-- As a User, I can sign up using my username & password
-- As a User, I can sign in using my username & password
-- As a User, I can display the list of shops sorted by distance (paginated)
-- As a User, I can like a shop, so it can be added to my preferred shops (liked shops shouldn’t be displayed on the main page)
-- As a User, I can dislike a shop, so it won’t be displayed within “Nearby Shops” list during the next 2 hours
-- As a User, I can display the list of preferred shops (paginated)
-- As a User, I can remove a shop from my preferred shops list
 ## Requirements
 - jdk >= 1.8
 - maven >= 3
@@ -25,6 +24,16 @@ $ mvn spring-boot:run
 each line the shops.json file inside resources folder, is a json object which represents a shop,
 the first time you run the app it will parse this file and store every shop in the H2 database
 (a relational database management system written in Java)
+
+## User Stories
+- As a User, I can sign up using my username & password
+- As a User, I can sign in using my username & password
+- As a User, I can display the list of shops sorted by distance (paginated)
+- As a User, I can like a shop, so it can be added to my preferred shops (liked shops shouldn’t be displayed on the main page)
+- As a User, I can dislike a shop, so it won’t be displayed within “Nearby Shops” list during the next 2 hours
+- As a User, I can display the list of preferred shops (paginated)
+- As a User, I can remove a shop from my preferred shops list
+
 
 ## API
 ### base URL
