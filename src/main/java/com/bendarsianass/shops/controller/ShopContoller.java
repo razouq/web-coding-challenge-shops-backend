@@ -17,12 +17,12 @@ public class ShopContoller {
     @Autowired
     private ShopService shopService;
 
-    @PostMapping("/getNearby")
+    @PostMapping("/nearby")
     public List<Shop> getNearby(@RequestBody UserLocation userLocation, @RequestParam int page, HttpServletRequest request) {
         return shopService.getAllNearbyNotDislikedBeforeAndSorted(userLocation, page, request);
     }
 
-    @GetMapping("/getPreferred")
+    @GetMapping("/preferred")
     public List<Shop> getPreferred(@RequestParam int page, HttpServletRequest request) {
         return shopService.getPreferred(page, request);
     }
@@ -37,7 +37,7 @@ public class ShopContoller {
         shopService.dislike(shopId, request);
     }
 
-    @GetMapping("removeLikedShop/{shopId}")
+    @GetMapping("remove/{shopId}")
     public void removeLikedShop(@PathVariable Long shopId, HttpServletRequest request) {
         shopService.removeLikedShop(shopId, request);
     }
