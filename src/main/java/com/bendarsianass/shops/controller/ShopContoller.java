@@ -41,18 +41,4 @@ public class ShopContoller {
     public void removeLikedShop(@PathVariable Long shopId, HttpServletRequest request) {
         shopService.removeLikedShop(shopId, request);
     }
-
-
-    /*
-    Test Functions
-     */
-    @PostMapping("/all")
-    public List<Shop> all(@RequestBody UserLocation userLocation, @RequestParam int page) {
-        return shopService.getAllShops(userLocation, page);
-    }
-
-    @GetMapping("getDisliked/{userId}")
-    public List<Shop> getDisliked(@PathVariable Long userId) {
-        return shopService.getDisliked(userId);
-    }
 }
