@@ -82,7 +82,7 @@ POST /api/authentication/login
 #### 3. get a list of nearby shops
 ##### URL
 ``` http
-POST /api/shops/getNearby?page={page_number}
+POST /api/shops/nearby?page={page_number}
 ```
 ##### Request Body
 ``` json
@@ -120,7 +120,7 @@ GET /api/shops/dislike/{shop_id}
 #### 6. get a list of preferred shops
 ##### URL
 ``` http
-GET /api/shops/getPreferred?page={page_number}
+GET /api/shops/preferred?page={page_number}
 ```
 
 ##### Response Body
@@ -140,7 +140,7 @@ GET /api/shops/getPreferred?page={page_number}
 #### 7. remove a shop from preferred shops list
 ##### URL
 ``` http
-GET /api/shops/removeLikedShop/{shop_id}
+GET /api/shops/remove/{shop_id}
 ```
 # Contributor
 Anass Bendarsi 
