@@ -1,10 +1,13 @@
 package com.bendarsianass.shops.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Shop {
@@ -18,11 +21,12 @@ public class Shop {
     private String city;
     @OneToOne(mappedBy = "shop", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Point location;
-    @ManyToMany(mappedBy = "likedShops")
+    @ManyToMany(mappedBy = "likedShops", fetch = FetchType.EAGER)
     @JsonIgnore
     private List<UserEntity> likes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "shop")
+    @OneToMany(mappedBy = "shop", fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     @JsonIgnore
     private List<ShopDislike> dislikes = new ArrayList<>();
 
@@ -91,5 +95,32 @@ public class Shop {
 
     public void setDislikes(List<ShopDislike> dislikes) {
         this.dislikes = dislikes;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Shop shop = (Shop) o;
+        return getId().equals(shop.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
+
+    @Override
+    public String toString() {
+        return "Shop{" +
+                "id=" + id +
+                ", picture='" + picture + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", city='" + city + '\'' +
+                ", location=" + location +
+                ", likes=" + likes +
+                ", dislikes=" + dislikes +
+                '}';
     }
 }

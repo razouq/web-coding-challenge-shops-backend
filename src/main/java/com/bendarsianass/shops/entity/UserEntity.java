@@ -1,6 +1,10 @@
 package com.bendarsianass.shops.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -19,7 +23,7 @@ public class UserEntity implements UserDetails {
     private String username;
     @JsonIgnore
     private String password;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "shop_like",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -28,7 +32,8 @@ public class UserEntity implements UserDetails {
     @JsonIgnore
     private List<Shop> likedShops = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     @JsonIgnore
     private List<ShopDislike> shopDislikes = new ArrayList<>();
 
@@ -104,4 +109,5 @@ public class UserEntity implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
     }
+
 }

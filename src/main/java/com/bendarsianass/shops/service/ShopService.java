@@ -43,18 +43,15 @@ public class ShopService {
         return shopRepository.getAll(PageRequest.of(page,12), userLocation.getLat(), userLocation.getLon(), SCALING_FACTOR);
     }
 
-    public void like(Long shopId, HttpServletRequest request) {
-        String token = request.getHeader("Authorization").substring("Bearer ".length());
-        Long userId = userService.findUserEntityIdFromToken(token);
+    public void like(Long shopId, UserEntity userEntity) {
         Shop shop = shopRepository.findById(shopId).get();
-        UserEntity userEntity = userRepository.findById(userId).get();
         // validation
         Map<String, String> errors = new HashMap<>();
         if(userEntity.getLikedShops().contains(shop)) {
             errors.put("like", "already liked shop");
             throw new AccountServiceException(errors);
         }
-        if(this.getDisliked(userId).contains(shop)) {
+        if(this.getDisliked(userEntity.getId()).contains(shop)) {
             errors.put("like", "user can't like a disliked shop");
             throw new AccountServiceException(errors);
         }
@@ -62,43 +59,27 @@ public class ShopService {
         userRepository.save(userEntity);
     }
 
-    public List<Shop> getPreferred(int page, HttpServletRequest request) {
-        String token = request.getHeader("Authorization").substring("Bearer ".length());
-        Long userId = userService.findUserEntityIdFromToken(token);
-        UserEntity userEntity = userRepository.findById(userId).get();
+    public List<Shop> getPreferred(int page, UserEntity userEntity) {
         return shopRepository.findAllByLikesIs(PageRequest.of(page, 12) ,userEntity);
     }
 
-    public List<Shop> getNearby(int page, HttpServletRequest request) {
-        String token = request.getHeader("Authorization").substring("Bearer ".length());
-        Long userId = userService.findUserEntityIdFromToken(token);
-        return shopRepository.findNotLiked(PageRequest.of(page, 12), userId);
+    public List<Shop> getNearby(int page, UserEntity userEntity) {
+        return shopRepository.findNotLiked(PageRequest.of(page, 12), userEntity.getId());
     }
 
-    public void removeLikedShop(Long shopId, HttpServletRequest request) {
-        String token = request.getHeader("Authorization").substring("Bearer ".length());
-        Long userId = userService.findUserEntityIdFromToken(token);
-        UserEntity userEntity = userRepository.findById(userId).get();
+    public void removeLikedShop(Long shopId, UserEntity userEntity) {
         Shop shop = shopRepository.findById(shopId).get();
-
         userEntity.getLikedShops().remove(shop);
         userRepository.save(userEntity);
     }
 
-    public void dislike(Long shopId, HttpServletRequest request) {
-
-        String token = request.getHeader("Authorization").substring("Bearer ".length());
-        Long userId = userService.findUserEntityIdFromToken(token);
-
+    public void dislike(Long shopId, UserEntity userEntity) {
         ShopDislike shopDislike = new ShopDislike();
-
-        UserEntity userEntity = userRepository.findById(userId).get();
         Shop shop = shopRepository.findById(shopId).get();
-
         // validation
 
         Map<String, String> errors = new HashMap<>();
-        if(this.getDisliked(userId).contains(shop)) {
+        if(this.getDisliked(userEntity.getId()).contains(shop)) {
             errors.put("dislike", "already disliked shop");
             throw new AccountServiceException(errors);
         }
@@ -128,12 +109,10 @@ public class ShopService {
         return dislikedShops;
     }
 
-    public List<Shop> getAllNearbyNotDislikedBeforeAndSorted(UserLocation userLocation, int page, HttpServletRequest request) {
-        String token = request.getHeader("Authorization").substring("Bearer ".length());
-        Long id = userService.findUserEntityIdFromToken(token);
-        System.out.println("id : " + id);
+    public List<Shop> getAllNearbyNotDislikedBeforeAndSorted(UserLocation userLocation, int page, UserEntity userEntity) {
+
         return shopRepository.findAllNearbyNotLikedAndNotDislikedBeforeAndSorted(
-                id,
+                userEntity.getId(),
                 userLocation.getLat(),
                 userLocation.getLon(),
                 SCALING_FACTOR,
